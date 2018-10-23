@@ -5,3 +5,8 @@
 -----------------------------------------------------------------------------------------
 
 -- Your code here
+
+local composer = require( "composer" )
+local nave = require( "scenes.nave" )
+
+nave.new()
