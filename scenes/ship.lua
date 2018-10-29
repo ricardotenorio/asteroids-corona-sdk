@@ -17,15 +17,32 @@ function ship:new( obj )
 	return obj
 end
 
+local function getLinearVelocity(rotation, velocity)
+  local angle = math.rad(rotation)
+  return {
+    xVelocity = math.sin(angle) * velocity,
+    yVelocity = math.cos(angle) * -velocity
+  }
+end
+
 function ship:key( event )
 	local name = event.keyName
 	local phase = event.phase
 
+	
+
 	if phase == "down" then
 		if name == "w" then
-			self.body:setLinearVelocity( 0, 10 )
+			--self.body:setLinearVelocity( 0, 10 )
 			--self.body:applyForce( 0, .1, self.body.x, self.body.y )
 			--self.body:applyAngularImpulse( 1 )
+			
+			--[[
+				https://stackoverflow.com/questions/39301171/move-object-in-the-direction-of-its-rotation
+			]]--
+			local bulletLinearVelocity = getLinearVelocity(self.body.rotation, 100)
+			self.body:setLinearVelocity(bulletLinearVelocity.xVelocity, bulletLinearVelocity.yVelocity)
+
 		end
 
 		if name == "a" then
@@ -34,6 +51,7 @@ function ship:key( event )
 		elseif name == "d" then
 			self.body:applyTorque( 0.01 )
 			print( self.body.rotation % 360  )
+
 		end
 
 		if name == "space" then 
@@ -51,5 +69,9 @@ function ship:key( event )
 	end
 		
 end
+
+
+
+
 
 return ship
