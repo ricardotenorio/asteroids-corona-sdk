@@ -7,6 +7,14 @@
 -- Your code here
 
 local composer = require( "composer" )
-local nave = require( "scenes.nave" )
+local ship = require( "scenes.ship" )
+--local physics = require( "physics" )
 
-nave.new()
+local s = ship:new()
+
+
+--physics.start( )
+physics.setGravity( 0, 0 )
+--physics.addBody( s )
+
+--timer.performWithDelay( 10000, s:applyTorque( .01 ) , 1 )
