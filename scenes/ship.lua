@@ -14,11 +14,14 @@ function ship:new( obj )
 	physics.addBody( obj.body, "dynamic" )
 	
 	Runtime:addEventListener( "key", obj )
+	--test
+	Runtime:addEventListener( "enterFrame", obj.outOfBounds )
+	
 	return obj
 end
 
-local function getLinearVelocity(rotation, velocity)
-  local angle = math.rad(rotation)
+local function getLinearVelocity( rotation, velocity )
+  local angle = math.rad( rotation )
   return {
     xVelocity = math.sin(angle) * velocity,
     yVelocity = math.cos(angle) * -velocity
@@ -28,7 +31,7 @@ end
 function ship:key( event )
 	local name = event.keyName
 	local phase = event.phase
-
+	local shipVelocity = getLinearVelocity(self.body.rotation, 100)
 	
 
 	if phase == "down" then
@@ -40,8 +43,8 @@ function ship:key( event )
 			--[[
 				https://stackoverflow.com/questions/39301171/move-object-in-the-direction-of-its-rotation
 			]]--
-			local bulletLinearVelocity = getLinearVelocity(self.body.rotation, 100)
-			self.body:setLinearVelocity(bulletLinearVelocity.xVelocity, bulletLinearVelocity.yVelocity)
+
+			self.body:setLinearVelocity( shipVelocity.xVelocity, shipVelocity.yVelocity )
 
 		end
 
@@ -70,6 +73,15 @@ function ship:key( event )
 		
 end
 
+
+-- test
+function ship:outOfBounds ( event )
+	if self.body.x < 0 then
+		self.body.x = w
+	elseif self.body.x > w then 
+		self.body.x = 0
+	end
+end
 
 
 
