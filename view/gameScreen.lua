@@ -1,5 +1,8 @@
 local composer = require( "composer" )
- 
+local physics = require( "physics" )
+physics.start()
+physics.setGravity( 0, 0 )
+
 local scene = composer.newScene()
  
 -- -----------------------------------------------------------------------------------

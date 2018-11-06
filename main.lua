@@ -7,7 +7,7 @@
 -- Your code here
 
 local composer = require( "composer" )
-local ship = require( "scenes.ship" )
+local ship = require( "model.ship" )
 --local physics = require( "physics" )
 
 local s = ship:new()
