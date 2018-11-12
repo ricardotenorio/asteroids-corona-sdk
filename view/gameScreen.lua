@@ -8,7 +8,7 @@ local scene = composer.newScene()
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
- 
+local player
 
  
  
@@ -21,8 +21,9 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
-    physics.start
+    physics.start()
     physics.setGravity( 0, 0 )
+    player = ship:new( )
  
 end
  

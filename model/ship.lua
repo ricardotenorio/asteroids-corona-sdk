@@ -11,11 +11,12 @@ function ship:new( obj )
 	self.__index = self
 	obj.body = display.newPolygon( w / 2, h / 2,  { 0, 0, 6, -16, 12, 0 } )
 	physics.start( )
+	physics.setGravity( 0, 0 )
 	physics.addBody( obj.body, "dynamic" )
 	
 	Runtime:addEventListener( "key", obj )
 	--test
-	Runtime:addEventListener( "enterFrame", obj.outOfBounds )
+	Runtime:addEventListener( "enterFrame", obj )
 	
 	return obj
 end
@@ -46,11 +47,8 @@ function ship:key( event )
 
 		if name == "a" then
 			self.body:applyTorque( -0.01 )
-			print( self.body.rotation % 360  )
 		elseif name == "d" then
 			self.body:applyTorque( 0.01 )
-			print( self.body.rotation % 360  )
-
 		end
 
 		if name == "space" then 
@@ -60,10 +58,8 @@ function ship:key( event )
 	elseif phase == "up" then
 		if name == "a" then
 			self.body:applyTorque( 0.01 )
-			print( self.body.rotation % 360  )
 		elseif name == "d" then
 			self.body:applyTorque( -0.01 )
-			print( self.body.rotation % 360  )
 		end
 	end
 		
@@ -71,15 +67,17 @@ end
 
 
 -- test
-function ship:outOfBounds ( event )
-	if self.body.x < 0 then
-		self.body.x = w
-	elseif self.body.x > w then 
-		self.body.x = 0
+function ship:enterFrame ( event )
+	if self.body.x < -40 then
+		self.body.x = w + 40
+	elseif self.body.x > w + 45 then 
+		self.body.x = -40
+	elseif self.body.y < -15 then
+		self.body.y = h + 10
+	elseif self.body.y > h + 15 then
+		self.body.y = -10
 	end
 end
-
-
 
 
 return ship
