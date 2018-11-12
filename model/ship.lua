@@ -1,8 +1,9 @@
 local ship = {}
+local bullet = require( "model.bullet" )
+local physics = require( "physics" )
 
 local h = display.contentHeight
 local w = display. contentWidth
-local physics = require( "physics" )
 
 -- test 
 function ship:new( obj )
@@ -32,7 +33,7 @@ end
 function ship:key( event )
 	local name = event.keyName
 	local phase = event.phase
-	local shipVelocity = getLinearVelocity(self.body.rotation, 100)
+	local shipVelocity = getLinearVelocity(self.body.rotation, 130)
 	
 
 	if phase == "down" then
