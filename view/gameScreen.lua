@@ -1,7 +1,6 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
-physics.start()
-physics.setGravity( 0, 0 )
+local ship = require( "model.ship")
 
 local scene = composer.newScene()
  
@@ -10,7 +9,7 @@ local scene = composer.newScene()
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
  
- 
+
  
  
 -- -----------------------------------------------------------------------------------
@@ -22,6 +21,8 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+    physics.start
+    physics.setGravity( 0, 0 )
  
 end
  

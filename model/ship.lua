@@ -35,11 +35,7 @@ function ship:key( event )
 	
 
 	if phase == "down" then
-		if name == "w" then
-			--self.body:setLinearVelocity( 0, 10 )
-			--self.body:applyForce( 0, .1, self.body.x, self.body.y )
-			--self.body:applyAngularImpulse( 1 )
-			
+		if name == "w" then			
 			--[[
 				https://stackoverflow.com/questions/39301171/move-object-in-the-direction-of-its-rotation
 			]]--
