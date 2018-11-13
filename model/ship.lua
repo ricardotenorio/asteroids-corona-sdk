@@ -3,10 +3,10 @@ local bullet = require( "model.bullet" )
 local physics = require( "physics" )
 
 local h = display.contentHeight
-local w = display. contentWidth
+local w = display.contentWidth
 
 -- test 
-function ship:new( obj )
+function ship:new( obj, group )
 	obj = obj or {}
 	setmetatable( obj, self )
 	self.__index = self
@@ -18,6 +18,7 @@ function ship:new( obj )
 	Runtime:addEventListener( "key", obj )
 	--test
 	Runtime:addEventListener( "enterFrame", obj )
+	group:insert( obj.body )
 	
 	return obj
 end

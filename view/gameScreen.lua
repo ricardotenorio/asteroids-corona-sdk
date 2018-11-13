@@ -1,6 +1,7 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
 local ship = require( "model.ship")
+local score = require( "model.score" )
 
 local scene = composer.newScene()
  
@@ -23,7 +24,9 @@ function scene:create( event )
     -- Code here runs when the scene is first created but has not yet appeared on screen
     physics.start()
     physics.setGravity( 0, 0 )
-    player = ship:new( )
+    player = ship:new( nil, sceneGroup )
+
+    score:new( sceneGroup )
  
 end
  
@@ -39,7 +42,16 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
+      -- Runtime:addEventListener("enterFrame", test)
  
+    end
+end
+
+function test()
+    -- check if a object is out of bound
+    print( ' not working ' )
+    for k,v in pairs(sceneGroup) do
+        print(k,v)
     end
 end
  
