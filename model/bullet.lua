@@ -8,6 +8,17 @@ function bullet:new( obj )
 	return obj 
 end
 
-function bullet:( ... )
-	-- body
+function bullet:fire( x, y )
+	local newBullet = display.newRect( sceneGroup, x, y, 2, 5, 2 )
+	physics.addBody( newBullet, "dynamic", { isSensor = true } )
+	newbullet.isBullet = true
+	newbullet.myName = "bullet"
+
+	newbullet:toBack()
+
+	-- transition and cleanup
+	transition.to( newbullet, { y = -40, time = 500,
+		onComplete = function() display.remove( newbullet ) end
+	 } )
+
 end

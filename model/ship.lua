@@ -1,21 +1,24 @@
 local ship = {}
-
-local h = display.contentHeight
-local w = display. contentWidth
+local bullet = require( "model.bullet" )
 local physics = require( "physics" )
 
+local h = display.contentHeight
+local w = display.contentWidth
+
 -- test 
-function ship:new( obj )
+function ship:new( obj, group )
 	obj = obj or {}
 	setmetatable( obj, self )
 	self.__index = self
 	obj.body = display.newPolygon( w / 2, h / 2,  { 0, 0, 6, -16, 12, 0 } )
 	physics.start( )
+	physics.setGravity( 0, 0 )
 	physics.addBody( obj.body, "dynamic" )
 	
 	Runtime:addEventListener( "key", obj )
 	--test
-	Runtime:addEventListener( "enterFrame", obj.outOfBounds )
+	Runtime:addEventListener( "enterFrame", obj )
+	group:insert( obj.body )
 	
 	return obj
 end
@@ -31,15 +34,11 @@ end
 function ship:key( event )
 	local name = event.keyName
 	local phase = event.phase
-	local shipVelocity = getLinearVelocity(self.body.rotation, 100)
+	local shipVelocity = getLinearVelocity(self.body.rotation, 130)
 	
 
 	if phase == "down" then
-		if name == "w" then
-			--self.body:setLinearVelocity( 0, 10 )
-			--self.body:applyForce( 0, .1, self.body.x, self.body.y )
-			--self.body:applyAngularImpulse( 1 )
-			
+		if name == "w" then			
 			--[[
 				https://stackoverflow.com/questions/39301171/move-object-in-the-direction-of-its-rotation
 			]]--
@@ -50,11 +49,8 @@ function ship:key( event )
 
 		if name == "a" then
 			self.body:applyTorque( -0.01 )
-			print( self.body.rotation % 360  )
 		elseif name == "d" then
 			self.body:applyTorque( 0.01 )
-			print( self.body.rotation % 360  )
-
 		end
 
 		if name == "space" then 
@@ -64,10 +60,8 @@ function ship:key( event )
 	elseif phase == "up" then
 		if name == "a" then
 			self.body:applyTorque( 0.01 )
-			print( self.body.rotation % 360  )
 		elseif name == "d" then
 			self.body:applyTorque( -0.01 )
-			print( self.body.rotation % 360  )
 		end
 	end
 		
@@ -75,15 +69,17 @@ end
 
 
 -- test
-function ship:outOfBounds ( event )
-	if self.body.x < 0 then
-		self.body.x = w
-	elseif self.body.x > w then 
-		self.body.x = 0
+function ship:enterFrame ( event )
+	if self.body.x < -40 then
+		self.body.x = w + 40
+	elseif self.body.x > w + 45 then 
+		self.body.x = -40
+	elseif self.body.y < -15 then
+		self.body.y = h + 10
+	elseif self.body.y > h + 15 then
+		self.body.y = -10
 	end
 end
-
-
 
 
 return ship
