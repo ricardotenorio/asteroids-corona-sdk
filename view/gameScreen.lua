@@ -26,7 +26,7 @@ function scene:create( event )
     physics.setGravity( 0, 0 )
     player = ship:new( nil, sceneGroup )
 
-    score:new( sceneGroup )
+    playerScore = score:new( nil, sceneGroup )
  
 end
  

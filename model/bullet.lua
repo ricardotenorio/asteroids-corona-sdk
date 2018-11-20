@@ -1,24 +1,19 @@
+local M = {}
+local direction = require("model.direction")
 local bullet = {}
 
-function bullet:new( obj )
-	obj  = obj or {}
-	setmetatable( obj, self)
-	self.__index = self
+function M:new( rotation, x, y, group )
+	print ( teste )
+	print ( rotation )
+	bullet = display.newRect( group, x, y, 2, 3, 2 )
+	physics.addBody( bullet, "dynamic", { isSensor = true } )
+	bullet.isBullet = true
+	bullet.myName = "bullet"
 
-	return obj 
+	bulletVelocity = direction:getLinearVelocity( rotation, 150 )
+	bullet:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
+
+	return bullet
 end
 
-function bullet:fire( x, y )
-	local newBullet = display.newRect( sceneGroup, x, y, 2, 5, 2 )
-	physics.addBody( newBullet, "dynamic", { isSensor = true } )
-	newbullet.isBullet = true
-	newbullet.myName = "bullet"
-
-	newbullet:toBack()
-
-	-- transition and cleanup
-	transition.to( newbullet, { y = -40, time = 500,
-		onComplete = function() display.remove( newbullet ) end
-	 } )
-
-end
+return M
