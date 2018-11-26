@@ -2,7 +2,7 @@ local M = {}
 
 local bullet = require( "model.bullet" )
 local physics = require( "physics" )
-local direction = require( "model.direction")
+local direction = require( "model.util.direction")
 
 local ship = {}
 local h = display.contentHeight
@@ -59,7 +59,7 @@ function M:new( obj, group )
 		self.bullets = bullet:new( self.rotation, self.x, self.y, group )
 	end
 
-		-- test
+		
 	function obj:enterFrame ( event )
 		if self.x < -40 then
 			self.x = w + 40
