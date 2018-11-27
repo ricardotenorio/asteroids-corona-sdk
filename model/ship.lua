@@ -1,8 +1,8 @@
 local M = {}
 
 local bullet = require( "model.bullet" )
-local physics = require( "physics" )
 local direction = require( "model.util.direction")
+local outOfBounds = require( "model.util.outOfBounds")
 
 local ship = {}
 local h = display.contentHeight
@@ -13,8 +13,6 @@ function M:new( obj, group )
 	obj = obj or {}
 	
 	obj = display.newPolygon( w / 2, h / 2,  { 0, 0, 6, -16, 12, 0 } )
-	physics.start( )
-	physics.setGravity( 0, 0 )
 	physics.addBody( obj, "dynamic" )
 	obj.bullets = {}
 	
@@ -61,15 +59,7 @@ function M:new( obj, group )
 
 		
 	function obj:enterFrame ( event )
-		if self.x < -40 then
-			self.x = w + 40
-		elseif self.x > w + 45 then 
-			self.x = -40
-		elseif self.y < -15 then
-			self.y = h + 10
-		elseif self.y > h + 15 then
-			self.y = -10
-		end
+		outOfBounds:checkPos( self )
 	end
 
 	return obj

@@ -1,5 +1,6 @@
 local M = {}
-local direction = require("model.util.direction")
+local direction = require( "model.util.direction" )
+local outOfBounds = require( "model.util.outOfBounds" )
 local bullet = {}
 
 function M:new( rotation, x, y, group )
@@ -7,21 +8,23 @@ function M:new( rotation, x, y, group )
 	physics.addBody( bullet, "dynamic", { isSensor = true } )
 	bullet.isBullet = true
 	bullet.myName = "bullet"
-	bullet.startPos = { x, y }
+	bullet.startTime = os.time()
 
 	-- Test
 	function bullet:enterFrame( event )
-		local distance = 0
-		--print( self.startPos[1] , self.startPos[2] )
-		print( self.x , self.y )
-		distance = ( self.x % self.startPos[1] ) + ( self.y % self.startPos[2] )
+		outOfBounds:checkPos( self )
+		print( os.difftime(self.startTime, os.time()))
 
-		if distance >= 100 then 
-			Runtime:removeEventListener( "enterFrame", self )
-			self:removeSelf()
-			self = nil
+		if self.startTime >= ( os.time() - 2 ) then 
+			self:remove()
 		end
 
+	end
+
+	function bullet:remove( )
+		Runtime:removeEventListener( "enterFrame", self )
+		display.remove( self )
+		self = nil
 	end
 
 	Runtime:addEventListener( "enterFrame", bullet )
