@@ -27,7 +27,7 @@ function scene:create( event )
     player = ship:new( nil, sceneGroup )
 
     playerScore = score:new( nil, sceneGroup )
- 
+
 end
  
  

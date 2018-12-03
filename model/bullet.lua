@@ -8,14 +8,15 @@ function M:new( rotation, x, y, group )
 	physics.addBody( bullet, "dynamic", { isSensor = true } )
 	bullet.isBullet = true
 	bullet.myName = "bullet"
-	bullet.startTime = os.time()
+	bullet.startTime = nil
 
 	-- Test
 	function bullet:enterFrame( event )
 		outOfBounds:checkPos( self )
-		print( os.difftime(self.startTime, os.time()))
 
-		if self.startTime >= ( os.time() - 2 ) then 
+		if self.startTime == nil then
+			self.startTime = event.time / 1000
+		elseif self.startTime <= ( event.time / 1000 - 1 ) then 
 			self:remove()
 		end
 
@@ -28,7 +29,6 @@ function M:new( rotation, x, y, group )
 	end
 
 	Runtime:addEventListener( "enterFrame", bullet )
-	--timer.performWithDelay( 1000, bullet, 1 )
 	bulletVelocity = direction:getLinearVelocity( rotation, 150 )
 	bullet:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
 
