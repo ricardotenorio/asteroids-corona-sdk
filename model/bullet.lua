@@ -2,18 +2,17 @@ local M = {}
 local direction = require( "model.util.direction" )
 local outOfBounds = require( "model.util.outOfBounds" )
 
-local bullet = {}
 local bulletVelocity
 
 function M:new( rotation, x, y, group )
-	bullet = display.newRect( group, x, y, 2, 3, 2 )
-	physics.addBody( bullet, "dynamic", { isSensor = true } )
-	bullet.isBullet = true
-	bullet.myName = "bullet"
-	bullet.startTime = nil
+	obj = display.newRect( group, x, y, 2, 3, 2 )
+	physics.addBody( obj, "dynamic", { isSensor = true } )
+	obj.isobj = true
+	obj.myName = "obj"
+	obj.startTime = nil
 
 	-- Test
-	function bullet:enterFrame( event )
+	function obj:enterFrame( event )
 		outOfBounds:checkPos( self )
 
 		if self.startTime == nil then
@@ -24,17 +23,17 @@ function M:new( rotation, x, y, group )
 
 	end
 
-	function bullet:remove( )
+	function obj:remove( )
 		Runtime:removeEventListener( "enterFrame", self )
 		display.remove( self )
 		self = nil
 	end
 
-	Runtime:addEventListener( "enterFrame", bullet )
+	Runtime:addEventListener( "enterFrame", obj )
 	bulletVelocity = direction:getLinearVelocity( rotation, 150 )
-	bullet:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
+	obj:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
 
-	return bullet
+	return obj
 end
 
 return M
