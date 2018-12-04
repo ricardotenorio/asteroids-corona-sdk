@@ -4,7 +4,6 @@ local bullet = require( "model.bullet" )
 local direction = require( "model.util.direction")
 local outOfBounds = require( "model.util.outOfBounds")
 
-local ship = {}
 local h = display.contentHeight
 local w = display.contentWidth
 
@@ -12,12 +11,11 @@ local w = display.contentWidth
 function M:new( obj, group )
 	obj = obj or {}
 	
-	obj = display.newPolygon( w / 2, h / 2,  { 0, 0, 6, -16, 12, 0 } )
+	obj = display.newPolygon( w / 2, h / 2, { 0, 0, 6, -16, 12, 0 } )
 	physics.addBody( obj, "dynamic" )
 	obj.bullets = {}
 	
 	Runtime:addEventListener( "key", obj )
-	--test
 	Runtime:addEventListener( "enterFrame", obj )
 	group:insert( obj )
 

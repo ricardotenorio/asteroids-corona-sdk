@@ -1,7 +1,9 @@
 local M = {}
 local direction = require( "model.util.direction" )
 local outOfBounds = require( "model.util.outOfBounds" )
+
 local bullet = {}
+local bulletVelocity
 
 function M:new( rotation, x, y, group )
 	bullet = display.newRect( group, x, y, 2, 3, 2 )

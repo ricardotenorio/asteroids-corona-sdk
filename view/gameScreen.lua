@@ -1,6 +1,7 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
-local ship = require( "model.ship")
+local ship = require( "model.ship" )
+local asteroid = require( "model.asteroid")
 local score = require( "model.score" )
 
 local scene = composer.newScene()
@@ -9,7 +10,7 @@ local scene = composer.newScene()
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local player
+local player, playerScore, asteroids
 
  
  
@@ -25,7 +26,7 @@ function scene:create( event )
     physics.start()
     physics.setGravity( 0, 0 )
     player = ship:new( nil, sceneGroup )
-
+    asteroids = asteroid:new( nil, sceneGroup )
     playerScore = score:new( nil, sceneGroup )
 
 end
