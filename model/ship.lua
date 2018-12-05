@@ -21,7 +21,7 @@ function M:new( obj, group )
 	function obj:key( event )
 		local name = event.keyName
 		local phase = event.phase
-		local shipVelocity = direction:getLinearVelocity(self.rotation, 130)
+		local shipVelocity = direction:getLinearVelocity(self.rotation, 150)
 		
 
 		if phase == "down" then

@@ -8,7 +8,6 @@ function M:new( rotation, x, y, group )
 	obj = display.newRect( group, x, y, 2, 3, 2 )
 	physics.addBody( obj, "dynamic", { isSensor = true } )
 	obj.isobj = true
-	obj.myName = "obj"
 	obj.startTime = nil
 	obj.name = "bullet"
 
@@ -29,12 +28,12 @@ function M:new( rotation, x, y, group )
 
 		if other.name == "asteroid" then
 			if phase == "began" then 
-				print( self.name, "collision", other.name)
+				other:remove( )
+				self:remove( )
 			elseif phase == "ended" then 
-				print( "collision ended" )
+				
 			end
 		end
-
 	end
 
 	function obj:remove( )
@@ -45,7 +44,7 @@ function M:new( rotation, x, y, group )
 
 	obj:addEventListener( "collision" )
 	Runtime:addEventListener( "enterFrame", obj )
-	bulletVelocity = direction:getLinearVelocity( rotation, 150 )
+	bulletVelocity = direction:getLinearVelocity( rotation, 200 )
 	obj:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
 
 	return obj

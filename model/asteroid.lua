@@ -15,7 +15,7 @@ function M:new( obj, group, size )
 	obj.strokeWidth = 2
 	obj.name = "asteroid"
 
-	physics.addBody( obj, "dynamic" )
+	physics.addBody( obj, "dynamic", { bounce = 1 } )
 	group:insert(obj)
 
 	Runtime:addEventListener( 'enterFrame', obj)

@@ -26,7 +26,10 @@ function scene:create( event )
     physics.start()
     physics.setGravity( 0, 0 )
     player = ship:new( nil, sceneGroup )
-    asteroids = asteroid:new( nil, sceneGroup )
+    asteroids = {}
+    table.insert( asteroids, asteroid:new( nil, sceneGroup ))
+    table.insert( asteroids, asteroid:new( nil, sceneGroup ))
+
     playerScore = score:new( nil, sceneGroup )
 
 end
