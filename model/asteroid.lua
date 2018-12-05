@@ -13,6 +13,7 @@ function M:new( obj, group, size )
 	obj = display.newCircle( 50, 50, 30 )
 	obj.fill = { 0, 0, 0, 0.5 }
 	obj.strokeWidth = 2
+	obj.name = "asteroid"
 
 	physics.addBody( obj, "dynamic" )
 	group:insert(obj)
@@ -24,6 +25,12 @@ function M:new( obj, group, size )
 
 	function obj:enterFrame ( event )
 		outOfBounds:checkPos( self )
+	end
+
+	function obj:remove( )
+		Runtime:removeEventListener( "enterFrame", self )
+		display.remove( self )
+		self = nil
 	end
 
 	return obj

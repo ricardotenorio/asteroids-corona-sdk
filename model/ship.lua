@@ -14,9 +14,8 @@ function M:new( obj, group )
 	obj = display.newPolygon( w / 2, h / 2, { 0, 0, 6, -16, 12, 0 } )
 	physics.addBody( obj, "dynamic" )
 	obj.bullets = {}
+	obj.name = "player"
 	
-	Runtime:addEventListener( "key", obj )
-	Runtime:addEventListener( "enterFrame", obj )
 	group:insert( obj )
 
 	function obj:key( event )
@@ -51,6 +50,20 @@ function M:new( obj, group )
 			
 	end
 
+	function obj:collision( event )
+		local other = event.other
+		local phase = event.phase
+
+		if other.name == "asteroid" then
+			if phase == "began" then 
+				print( self.name, "collision", other.name)
+			elseif phase == "ended" then 
+				print( "collision ended" )
+			end
+		end
+
+	end
+
 	function obj:fire( )
 		self.bullets = bullet:new( self.rotation, self.x, self.y, group )
 	end
@@ -59,6 +72,16 @@ function M:new( obj, group )
 	function obj:enterFrame ( event )
 		outOfBounds:checkPos( self )
 	end
+
+	function obj:remove( )
+		Runtime:removeEventListener( "enterFrame", self )
+		display.remove( self )
+		self = nil
+	end
+
+	obj:addEventListener( "collision" )
+	Runtime:addEventListener( "key", obj )
+	Runtime:addEventListener( "enterFrame", obj )
 
 	return obj
 end
