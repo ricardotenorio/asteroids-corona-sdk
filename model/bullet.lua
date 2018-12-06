@@ -11,7 +11,6 @@ function M:new( rotation, x, y, group )
 	obj.startTime = nil
 	obj.name = "bullet"
 
-	-- Test
 	function obj:enterFrame( event )
 		outOfBounds:checkPos( self )
 
@@ -44,6 +43,8 @@ function M:new( rotation, x, y, group )
 
 	obj:addEventListener( "collision" )
 	Runtime:addEventListener( "enterFrame", obj )
+
+	-- set bullet direction and speed
 	bulletVelocity = direction:getLinearVelocity( rotation, 200 )
 	obj:setLinearVelocity( bulletVelocity.xVelocity, bulletVelocity.yVelocity )
 
