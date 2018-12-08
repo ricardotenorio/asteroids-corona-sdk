@@ -62,4 +62,18 @@ function M.start( sceneGroup )
 	Runtime:addEventListener( "enterFrame", M )
 end
 
+function M:remove( )
+	for i=1, #enemies do
+		if enemies[i] ~= nil then
+			enemies[i]:remove()
+			table.remove( enemies, i )
+		end		
+	end
+
+	timer.cancel( alienTimer )
+	Runtime:removeEventListener( "enterFrame", M )
+	enemies = nil
+	
+end
+
 return M
