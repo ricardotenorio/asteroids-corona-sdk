@@ -31,7 +31,7 @@ end
 function M.start( sceneGroup )
 	group = sceneGroup
 	enemies[1] = alien:new( nil, group )
-	--M.generateAsteroids( )
+	M.generateAsteroids( )
 end
 
 return M

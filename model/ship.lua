@@ -47,9 +47,10 @@ function M:new( obj, group )
 				timer.cancel( accelerationTimer )
 			end
 			if name == "a" then
-				self:applyTorque( 0.015 )
+				obj.angularVelocity = 0
 			elseif name == "d" then
-				self:applyTorque( -0.015 )
+				obj.angularVelocity = 0
+
 			end
 		end
 			
@@ -91,8 +92,8 @@ function M:new( obj, group )
 				playerLives:update( 0 )
 				if playerLives.value == 0 then
 				end
-			elseif phase == "ended" then
 				respawnTimer = timer.performWithDelay( 1000, respawn, 1 )
+			elseif phase == "ended" then
 				if other.name == "enemyBullet" then
 					other:remove( )
 				end
@@ -104,6 +105,7 @@ function M:new( obj, group )
 		obj.x = w / 2 
 		obj.y = h / 2
 		obj:setLinearVelocity( 0, 0)
+		obj.angularVelocity = 0
 		obj.rotation = 0
 		obj.isVisible = true
 	end
