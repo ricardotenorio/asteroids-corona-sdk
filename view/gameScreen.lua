@@ -1,8 +1,10 @@
 local composer = require( "composer" )
 local physics = require( "physics" )
 local ship = require( "model.ship" )
-local asteroid = require( "model.asteroid")
+--local asteroid = require( "model.asteroid")
 local score = require( "model.score" )
+local lives = require( "model.lives" )
+local level = require( "model.levelgenerator" )
 
 local scene = composer.newScene()
  
@@ -10,7 +12,7 @@ local scene = composer.newScene()
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local player, playerScore, asteroids
+local player, asteroids
 
  
  
@@ -23,14 +25,19 @@ function scene:create( event )
  
     local sceneGroup = self.view
     -- Code here runs when the scene is first created but has not yet appeared on screen
+    math.randomseed( os.time( ) )
     physics.start()
     physics.setGravity( 0, 0 )
     player = ship:new( nil, sceneGroup )
-    asteroids = {}
-    table.insert( asteroids, asteroid:new( nil, sceneGroup ))
-    table.insert( asteroids, asteroid:new( nil, sceneGroup ))
+    --asteroids = {}
+    --table.insert( asteroids, asteroid:new( nil, sceneGroup ))
+    --table.insert( asteroids, asteroid:new( nil, sceneGroup ))
 
+    ----------------GLOBAL--------------------
     playerScore = score:new( nil, sceneGroup )
+    playerLives = lives:new( nil, sceneGroup )
+    ------------------------------------------
+    level.start( sceneGroup )
 
 end
  
@@ -51,16 +58,7 @@ function scene:show( event )
     end
 end
 
-function test()
-    -- check if a object is out of bound
-    print( ' not working ' )
-    for k,v in pairs(sceneGroup) do
-        print(k,v)
-    end
-end
- 
- 
--- hide()
+ -- hide()
 function scene:hide( event )
  
     local sceneGroup = self.view

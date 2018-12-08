@@ -25,12 +25,13 @@ function M:new( rotation, x, y, group )
 		local other = event.other
 		local phase = event.phase
 
-		if other.name == "asteroid" then
+		if other.name == "enemy" then
 			if phase == "began" then 
+				local points = other.points
+				playerScore:update( points )
+				playerLives:update( points )
 				other:remove( )
 				self:remove( )
-			elseif phase == "ended" then 
-				
 			end
 		end
 	end
