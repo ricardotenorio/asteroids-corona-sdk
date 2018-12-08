@@ -7,7 +7,6 @@ local bulletVelocity
 function M:new( rotation, x, y, group )
 	obj = display.newRect( group, x, y, 2, 3, 2 )
 	physics.addBody( obj, "dynamic", { isSensor = true } )
-	obj.isobj = true
 	obj.startTime = nil
 	obj.name = "bullet"
 

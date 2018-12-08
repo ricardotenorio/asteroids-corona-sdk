@@ -1,5 +1,6 @@
 local M = {}
 local asteroid = require("model.asteroid")
+local alien = require("model.alien")
 
 local enemies = {}
 local level = 1
@@ -22,10 +23,15 @@ function M.generateAsteroids( )
 	end	
 end
 
+function M.timer( )
+	-- body
+end
+
 
 function M.start( sceneGroup )
 	group = sceneGroup
-	M.generateAsteroids( )
+	enemies[1] = alien:new( nil, group )
+	--M.generateAsteroids( )
 end
 
 return M
