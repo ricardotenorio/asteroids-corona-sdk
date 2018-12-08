@@ -7,6 +7,7 @@ local outOfBounds = require( "model.util.outOfBounds")
 local h = display.contentHeight
 local w = display.contentWidth
 local accelerationTimer
+local respawnTimer
 local speedLimit
 
 -- test 
@@ -81,16 +82,30 @@ function M:new( obj, group )
 
 	function obj:collision( event )
 		local other = event.other
-		local phase = event.phasedd
+		local phase = event.phase
 
-		if other.name == "asteroid" then
-			if phase == "began" then 
-				print( self.name, "collision", other.name)
-			elseif phase == "ended" then 
-				print( "collision ended" )
+		if other.name == "enemy" or other.name == "enemyBullet" then
+			if phase == "began" and self.isVisible then 
+				self.isVisible = false
+				playerLives.value = playerLives.value - 1
+				playerLives:update( 0 )
+				if playerLives.value == 0 then
+				end
+			elseif phase == "ended" then
+				respawnTimer = timer.performWithDelay( 1000, respawn, 1 )
+				if other.name == "enemyBullet" then
+					other:remove( )
+				end
 			end
 		end
+	end
 
+	function respawn( )
+		obj.x = w / 2 
+		obj.y = h / 2
+		obj:setLinearVelocity( 0, 0)
+		obj.rotation = 0
+		obj.isVisible = true
 	end
 
 	function obj:fire( )
