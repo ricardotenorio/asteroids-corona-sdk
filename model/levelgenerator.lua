@@ -40,6 +40,10 @@ function M.enterFrame( )
 	local count = 0
 	for k,v in pairs( enemies ) do
 		if v.destroyed then
+			if v.size ~= nil and v.size > 1 then
+				table.insert( enemies, asteroid:new( nil, v.size - 1, group, { v.x, v.y } ) )
+				table.insert( enemies, asteroid:new( nil, v.size - 1, group, { v.x, v.y } ) )
+			end
 			v:remove()
 			table.remove( enemies, k )
 		elseif v == nil then
@@ -73,7 +77,7 @@ function M:remove( )
 	timer.cancel( alienTimer )
 	Runtime:removeEventListener( "enterFrame", M )
 	enemies = nil
-	
+
 end
 
 return M

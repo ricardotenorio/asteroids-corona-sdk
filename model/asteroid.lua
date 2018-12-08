@@ -5,7 +5,6 @@ local outOfBounds = require( "model.util.outOfBounds" )
 local h = display.contentHeight
 local w = display.contentWidth
 local asteroidDirection
-local position
 
 local function generatePosition( )
 	local rnumber = math.random( 1, 4 )
@@ -26,10 +25,10 @@ local function generatePosition( )
 	return { x, y }
 end
 
-function M:new( obj, size, group )
+function M:new( obj, size, group, position )
 	obj = obj or {}
 	size = size or 1
-	position = generatePosition()
+	position = position or generatePosition()
 
 	if size == 1 then
 		obj = display.newCircle( position[1], position[2], 5 )
