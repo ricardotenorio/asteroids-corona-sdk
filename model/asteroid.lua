@@ -48,6 +48,7 @@ function M:new( obj, size, group )
 	obj.fill = { 0, 0, 0, 0.5 }
 	obj.strokeWidth = 2
 	obj.name = "enemy"
+	obj.destroyed = false
 	group:insert( obj )
 
 	physics.addBody( obj, "dynamic", { bounce = 1 } )

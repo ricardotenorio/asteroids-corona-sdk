@@ -16,6 +16,7 @@ function M:new( obj, group )
 	obj.fill = { .5, 0, 0, 0.5 }
 	obj.strokeWidth = 2
 	obj.name = "enemy"
+	obj.destroyed = false
 	group:insert( obj )
 
 	physics.addBody( obj, "dynamic", { isSensor = true } )

@@ -7,6 +7,8 @@ local level = 1
 local rNumber
 local enemyValue
 local group
+local alienHasSpawn
+local alienTimer
 
 function M.generateAsteroids( )
 	
@@ -24,14 +26,40 @@ function M.generateAsteroids( )
 end
 
 function M.timer( )
-	-- body
+	table.insert( enemies, alien:new( nil, group ) )
 end
 
+function M.enterFrame( )
+
+	if not alienHasSpawn then
+		alienHasSpawn = true
+		alienTimer = timer.performWithDelay( 20000, M.timer, 1 )
+	end
+
+	-- clean table and changes level
+	local count = 0
+	for k,v in pairs( enemies ) do
+		if v.destroyed then
+			v:remove()
+			table.remove( enemies, k )
+		elseif v == nil then
+			count = count + 1
+		end
+	end
+
+	if count == #enemies then
+		level = level + 1
+		timer.cancel( alienTimer )
+		M.generateAsteroids()
+		alienHasSpawn = false
+	end
+end
 
 function M.start( sceneGroup )
 	group = sceneGroup
-	enemies[1] = alien:new( nil, group )
 	M.generateAsteroids( )
+
+	Runtime:addEventListener( "enterFrame", M )
 end
 
 return M

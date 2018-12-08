@@ -29,7 +29,7 @@ function M:new( rotation, x, y, group )
 				local points = other.points
 				playerScore:update( points )
 				playerLives:update( points )
-				other:remove( )
+				other.destroyed = true
 				self:remove( )
 			end
 		end
