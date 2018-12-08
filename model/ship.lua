@@ -38,7 +38,7 @@ function M:new( obj, group )
 				self:applyTorque( 0.015 )
 			end
 
-			if name == "space" then 
+			if name == "space" and self.isVisible then 
 				self:fire()
 			end
 
@@ -119,6 +119,7 @@ function M:new( obj, group )
 
 	function obj:remove( )
 		Runtime:removeEventListener( "enterFrame", self )
+		Runtime:removeEventListener( "key", self )
 		display.remove( self )
 		self = nil
 	end
