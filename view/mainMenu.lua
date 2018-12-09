@@ -8,12 +8,22 @@ local w = display.contentWidth
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local newGame, ranking, gameText, rankingText, start, title
+local newGame, ranking, gameText, rankingText, keyboardOption, keyboardText, changeControls, start, title, keyboard,
+options
 
 start = function( event ) 
     composer.gotoScene( "view.gameScreen" )
 end
- 
+
+changeControls = function ( event )
+    if keyboard then
+        keyboardOption:setFillColor( 1, .22, .05 )
+        keyboard = false
+    else
+        keyboardOption:setFillColor( .22, 1, .05 )
+        keyboard = true
+    end
+end
  
  
 -- -----------------------------------------------------------------------------------
@@ -40,7 +50,7 @@ function scene:show( event )
  
     elseif ( phase == "did" ) then
         newGame = display.newRect( sceneGroup, w / 2, h / 2, 200, 40 )
-        local options = { parent = sceneGroup, text = "New Game", x = newGame.x, y = newGame.y,
+        options = { parent = sceneGroup, text = "New Game", x = newGame.x, y = newGame.y,
             font = "kongtext.ttf", fontSize = 20, align = "center" }
         gameText = display.newText( options )
         gameText:setFillColor( .22, 1, .05 )
@@ -55,7 +65,15 @@ function scene:show( event )
             font = "kongtext.ttf", fontSize = 25, align = "center" }
         title = display.newText( options )
         title:setFillColor( .22, 1, .05 )
- 
+
+        keyboardOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
+        keyboardOption:setFillColor( .22, 1, .05 )
+        options = { parent = sceneGroup, text = "keyboard", x = keyboardOption.x, y = keyboardOption.y,
+            font = "kongtext.ttf", fontSize = 8, align = "center"}
+        keyboardText = display.newText( options )
+        keyboard = true
+    
+        keyboardOption:addEventListener( "tap", changeControls )
         newGame:addEventListener( "tap", start )
     end
 end
