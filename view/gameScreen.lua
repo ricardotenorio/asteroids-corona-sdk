@@ -12,9 +12,16 @@ local scene = composer.newScene()
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local player, asteroids
+local player, asteroids, gameOver
 
- 
+gameOver = function( event )
+    if playerLives.value == 0 then
+        composer.removeScene( "view.gameScreen" )
+        composer.gotoScene( "view.mainMenu" )
+    end
+    
+end
+
  
 -- -----------------------------------------------------------------------------------
 -- Scene event functions
@@ -38,6 +45,8 @@ function scene:create( event )
     playerLives = lives:new( nil, sceneGroup )
     ------------------------------------------
     level.start( sceneGroup )
+
+    Runtime:addEventListener( "enterFrame", gameOver ) 
 
 end
  
@@ -68,7 +77,7 @@ function scene:hide( event )
         -- Code here runs when the scene is on screen (but is about to go off screen)
  
     elseif ( phase == "did" ) then
-        level:remove( ) 
+       
     end
 end
  
@@ -77,8 +86,8 @@ end
 function scene:destroy( event )
  
     local sceneGroup = self.view
-    -- Code here runs prior to the removal of scene's view
- 
+    level:remove( )
+    Runtime:removeEventListener( "enterFrame", gameOver ) 
 end
  
  

@@ -91,8 +91,10 @@ function M:new( obj, group )
 				playerLives.value = playerLives.value - 1
 				playerLives:update( 0 )
 				if playerLives.value == 0 then
+					self:remove()
+				else
+					respawnTimer = timer.performWithDelay( 1000, respawn, 1 )
 				end
-				respawnTimer = timer.performWithDelay( 1000, respawn, 1 )
 			elseif phase == "ended" then
 				if other.name == "enemyBullet" then
 					other:remove( )
@@ -122,6 +124,11 @@ function M:new( obj, group )
 	function obj:remove( )
 		Runtime:removeEventListener( "enterFrame", self )
 		Runtime:removeEventListener( "key", self )
+		obj:removeEventListener( "collision" )
+		if accelerationTimer then
+			timer.cancel( accelerationTimer )
+		end
+		timer.cancel( respawnTimer )
 		display.remove( self )
 		self = nil
 	end

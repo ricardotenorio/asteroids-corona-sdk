@@ -1,12 +1,18 @@
 local composer = require( "composer" )
  
 local scene = composer.newScene()
+local h = display.contentHeight
+local w = display.contentWidth
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
- 
+local newGame, ranking, gameText, rankingText, start, title
+
+start = function( event ) 
+    composer.gotoScene( "view.gameScreen" )
+end
  
  
  
@@ -33,8 +39,24 @@ function scene:show( event )
         -- Code here runs when the scene is still off screen (but is about to come on screen)
  
     elseif ( phase == "did" ) then
-        -- Code here runs when the scene is entirely on screen
+        newGame = display.newRect( sceneGroup, w / 2, h / 2, 200, 40 )
+        local options = { parent = sceneGroup, text = "New Game", x = newGame.x, y = newGame.y,
+            font = "kongtext.ttf", fontSize = 20, align = "center" }
+        gameText = display.newText( options )
+        gameText:setFillColor( .22, 1, .05 )
+
+        ranking = display.newRect( sceneGroup, w / 2, h / 4 * 3, 200, 40 )
+        options = { parent = sceneGroup, text = "Ranking", x = ranking.x, y = ranking.y,
+            font = "kongtext.ttf", fontSize = 20, align = "center" }
+        rankingText = display.newText( options )
+        ranking:setFillColor( .22, 1, .05 )
+
+        options = { parent = sceneGroup, text = "Asteroids\n(...)", x = w / 2, y = h / 4,
+            font = "kongtext.ttf", fontSize = 25, align = "center" }
+        title = display.newText( options )
+        title:setFillColor( .22, 1, .05 )
  
+        newGame:addEventListener( "tap", start )
     end
 end
  

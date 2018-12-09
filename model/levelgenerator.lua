@@ -2,8 +2,8 @@ local M = {}
 local asteroid = require("model.asteroid")
 local alien = require("model.alien")
 
-local enemies = {}
-local level = 1
+local enemies
+local level
 local rNumber
 local enemyValue
 local group
@@ -60,6 +60,8 @@ function M.enterFrame( )
 end
 
 function M.start( sceneGroup )
+	enemies = {}
+	level = 1
 	group = sceneGroup
 	M.generateAsteroids( )
 
@@ -67,17 +69,19 @@ function M.start( sceneGroup )
 end
 
 function M:remove( )
-	for i=1, #enemies do
-		if enemies[i] ~= nil then
-			enemies[i]:remove()
-			table.remove( enemies, i )
-		end		
+	if enemies ~= nil then
+		for i=1, #enemies do
+			if enemies[i] ~= nil then
+				enemies[i]:remove()
+				table.remove( enemies, i )
+			end		
+		end
 	end
 
 	timer.cancel( alienTimer )
 	Runtime:removeEventListener( "enterFrame", M )
 	enemies = nil
-
+	self = nil
 end
 
 return M

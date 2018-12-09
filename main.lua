@@ -10,4 +10,4 @@ local composer = require( "composer" )
 display.setStatusBar( display.HiddenStatusBar ) 
 
 
-composer.gotoScene( "view.gameScreen" )
+composer.gotoScene( "view.mainMenu" )
