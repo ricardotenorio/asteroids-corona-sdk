@@ -8,20 +8,24 @@ local w = display.contentWidth
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local newGame, ranking, gameText, rankingText, keyboardOption, keyboardText, changeControls, start, title, keyboard,
-options
+local newGame, ranking, gameText, rankingText, touchOption, touchText, changeControls, start, title, touch,
+options, rankingMenu
 
 start = function( event ) 
-    composer.gotoScene( "view.gameScreen" )
+    composer.gotoScene( "view.gameScreen", { effect="fade", time=800 params=touch } )
+end
+
+rankingMenu = function( event ) 
+    composer.gotoScene( "view.rankingMenu" )
 end
 
 changeControls = function ( event )
-    if keyboard then
-        keyboardOption:setFillColor( 1, .22, .05 )
-        keyboard = false
+    if touch then
+        touchOption:setFillColor( 1, .22, .05 )
+        touch = false
     else
-        keyboardOption:setFillColor( .22, 1, .05 )
-        keyboard = true
+        touchOption:setFillColor( .22, 1, .05 )
+        touch = true
     end
 end
  
@@ -66,14 +70,15 @@ function scene:show( event )
         title = display.newText( options )
         title:setFillColor( .22, 1, .05 )
 
-        keyboardOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
-        keyboardOption:setFillColor( .22, 1, .05 )
-        options = { parent = sceneGroup, text = "keyboard", x = keyboardOption.x, y = keyboardOption.y,
+        touchOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
+        touchOption:setFillColor( .22, 1, .05 )
+        options = { parent = sceneGroup, text = "touch", x = touchOption.x, y = touchOption.y,
             font = "kongtext.ttf", fontSize = 8, align = "center"}
-        keyboardText = display.newText( options )
-        keyboard = true
+        touchText = display.newText( options )
+        touch = true
     
-        keyboardOption:addEventListener( "tap", changeControls )
+        ranking:addEventListener( "tap", rankingMenu )
+        touchOption:addEventListener( "tap", changeControls )
         newGame:addEventListener( "tap", start )
     end
 end

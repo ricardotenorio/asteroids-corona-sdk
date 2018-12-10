@@ -16,8 +16,9 @@ local player, asteroids, gameOver
 
 gameOver = function( event )
     if playerLives.value == 0 then
+        local score = playerScore.value
         composer.removeScene( "view.gameScreen" )
-        composer.gotoScene( "view.mainMenu" )
+        composer.gotoScene( "view.rankingMenu", { effect="fade", time=800, params=score } )
     end
     
 end

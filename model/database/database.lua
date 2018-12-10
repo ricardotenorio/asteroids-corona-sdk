@@ -15,7 +15,6 @@ local function onSystemEvent( event )
 end
 
 local createTable = [[CREATE TABLE IF NOT EXISTS ranking (id INTEGER PRIMARY KEY, name TEXT, points INTEGER);]]
-print( createTable )
 db:exec( createTable )
 
 dummyData = function()
@@ -29,7 +28,7 @@ dummyData = function()
 
 	for i = 1, #values do
 		local insertTable = [[INSERT INTO ranking (name, points) VALUES (']]..values[i]..[[',']]..(10000 * i)..[[');]]
-		db.exec( insertTable )
+		db:exec( insertTable )
 	end
 end
 
@@ -37,24 +36,28 @@ function M.getRanking( group )
 	local count = 0
 	rankingText = {}
 
-	for row in db:nrows("SELECT name, points FROM ranking ORDER BY points LIMIT 5") do
-		count = count + 1
-	    local rowtext = row.name .. " " .. row.points
-	    local options = { text = count .. rowtext, x = w / 2, y = (h / 2) * count, font = "kongtext.ttf", fontSize = 20, align = "center" }
+	for row in db:nrows("SELECT name, points FROM ranking ORDER BY points DESC LIMIT 5") do
+		count = count + 1	
+	    local rowtext = row.name .. "......" .. row.points
+	    local options = { text = count .. "." .. rowtext, x = w / 2, y = 30 * count, font = "kongtext.ttf",
+	    	fontSize = 15, align = "center" }
 	    table.insert( rankingText, display.newText( options ) )
 	    rankingText[count]:setFillColor( .22, 1, .05 )
+	    rankingText[count].y = rankingText[count].y + 30
 	    group:insert( rankingText[count] )
+
 	end
 
 	if count == 0 then
 		dummyData()
-		M.getRanking
+		M.getRanking()
 	end
 end
 
 function M.newRanking( points )
-	local insertTable = [[INSERT INTO ranking (name, points) VALUES ('player',']]..points..[[');]]
-	db.exec( insertTable )
+	print( points )
+	local insertTable = [[INSERT INTO ranking (name, points) VALUES ('YOU',']]..points..[[');]]
+	db:exec( insertTable )
 end
 
 function M.remove()
