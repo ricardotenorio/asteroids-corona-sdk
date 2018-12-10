@@ -38,14 +38,13 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
-    elseif ( phase == "did" ) then
-        
         if event.params then
             database.newRanking( event.params )
         end
 
         database.getRanking( sceneGroup )
+ 
+    elseif ( phase == "did" ) then
 
         options = { parent = sceneGroup, text = "Hi-Score", x = w / 2, y = 20,
             font = "kongtext.ttf", fontSize = 20, align = "center" }

@@ -56,16 +56,19 @@ function scene:create( event )
     title = display.newText( options )
     title:setFillColor( .22, 1, .05 )
 
-
-    touchOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
-    touchOption:setFillColor( 1, .22, .05 )
-    options = { parent = sceneGroup, text = "touch", x = touchOption.x, y = touchOption.y,
+    if not event.params then
+        touchOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
+        touchOption:setFillColor( .22, 1, .05 )
+        options = { parent = sceneGroup, text = "touch", x = touchOption.x, y = touchOption.y,
         font = "kongtext.ttf", fontSize = 8, align = "center"}
-    touchText = display.newText( options )
-    touch = false
-
+        touchText = display.newText( options )
+        touch = true
+        touchOption:addEventListener( "tap", changeControls )
+    else
+        touch = true
+    end
+    
     ranking:addEventListener( "tap", rankingMenu )
-    touchOption:addEventListener( "tap", changeControls )
     newGame:addEventListener( "tap", start )
 end
  

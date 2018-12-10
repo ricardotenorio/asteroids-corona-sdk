@@ -29,7 +29,9 @@ function M:new( obj, group )
 		if phase == "began" then
 			if name == "up" then
 				-- Updates the velocity every 5 frames (I think...)
-				accelerationTimerTouch = timer.performWithDelay( 83, self, 0 )
+				if not accelerationTimerTouch then
+					accelerationTimerTouch = timer.performWithDelay( 83, self, 0 )
+				end
 			end
 
 			if name == "left" then
@@ -46,6 +48,7 @@ function M:new( obj, group )
 			if name == "up" then
 				if accelerationTimerTouch then
 					timer.cancel( accelerationTimerTouch )
+					accelerationTimerTouch = nil
 				end
 			end
 			if name == "left" then

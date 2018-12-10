@@ -44,18 +44,17 @@ function M.getRanking( group )
 	    table.insert( rankingText, display.newText( options ) )
 	    rankingText[count]:setFillColor( .22, 1, .05 )
 	    rankingText[count].y = rankingText[count].y + 30
-	    group:insert( rankingText[count] )
+    	group:insert( rankingText[count] )
 
 	end
 
 	if count == 0 then
 		dummyData()
-		M.getRanking()
+		M.getRanking( group )
 	end
 end
 
 function M.newRanking( points )
-	print( points )
 	local insertTable = [[INSERT INTO ranking (name, points) VALUES ('YOU',']]..points..[[');]]
 	db:exec( insertTable )
 end

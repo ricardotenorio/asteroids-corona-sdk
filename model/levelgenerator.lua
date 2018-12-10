@@ -53,6 +53,7 @@ function M.enterFrame( )
 
 	if count == #enemies then
 		level = level + 1
+		playerScore:update( 1000 )
 		timer.cancel( alienTimer )
 		M.generateAsteroids()
 		alienHasSpawn = false
@@ -63,6 +64,7 @@ function M.start( sceneGroup )
 	enemies = {}
 	level = 1
 	group = sceneGroup
+	alienHasSpawn = false
 	M.generateAsteroids( )
 
 	Runtime:addEventListener( "enterFrame", M )
