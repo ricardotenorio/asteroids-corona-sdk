@@ -11,7 +11,7 @@ local w = display.contentWidth
 -- -----------------------------------------------------------------------------------
 local rankingText, returnButton, returnText, mainMenu, options
 
-mainMenu = function( event ) 
+mainMenu = function( event )
     composer.gotoScene( "view.mainMenu" )
 end
 
@@ -71,7 +71,7 @@ function scene:hide( event )
         -- Code here runs when the scene is on screen (but is about to go off screen)
  
     elseif ( phase == "did" ) then
-        -- Code here runs immediately after the scene goes entirely off screen
+        database.remove()
  
     end
 end

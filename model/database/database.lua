@@ -23,8 +23,6 @@ dummyData = function()
 	values[2] = "ast"
 	values[3] = "ids"
 	values[4] = "jck"
-	values[5] = "jro"
-	values[6] = "joe"
 
 	for i = 1, #values do
 		local insertTable = [[INSERT INTO ranking (name, points) VALUES (']]..values[i]..[[',']]..(10000 * i)..[[');]]
@@ -48,7 +46,7 @@ function M.getRanking( group )
 
 	end
 
-	if count == 0 then
+	if count <= 1 then
 		dummyData()
 		M.getRanking( group )
 	end
@@ -61,6 +59,9 @@ end
 
 function M.remove()
 	Runtime:removeEventListener( "system", onSystemEvent )
+	for i=1,rankingText do
+		display.remove( rankingText[i] )
+	end
 end
 
 Runtime:addEventListener( "system", onSystemEvent )
