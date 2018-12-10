@@ -6,13 +6,31 @@ local score = require( "model.score" )
 local lives = require( "model.lives" )
 local level = require( "model.levelgenerator" )
 
+local h = display.contentHeight
+local w = display.contentWidth
 local scene = composer.newScene()
  
 -- -----------------------------------------------------------------------------------
 -- Code outside of the scene event functions below will only be executed ONCE unless
 -- the scene is removed entirely (not recycled) via "composer.removeScene()"
 -- -----------------------------------------------------------------------------------
-local player, asteroids, gameOver
+local player, asteroids, gameOver, addControls, buttons
+
+addControls = function( sceneGroup )
+    buttons[1] = display.newRoundedRect( 10, h - 40, 40, 25, 8 )
+    buttons[1]:setFillColor( .22, 1, .05, .5 )
+    sceneGroup:insert( buttons[1] )
+    buttons[2] = display.newRoundedRect( 70, h - 40, 40, 25, 8 )
+    buttons[2]:setFillColor( .22, 1, .05, .5 )
+    sceneGroup:insert( buttons[2] )
+    buttons[3] = display.newRoundedRect( 40, h - 80, 25, 40, 8 )
+    buttons[3]:setFillColor( .22, 1, .05, .5 )
+    sceneGroup:insert( buttons[3] )
+    buttons[4] = display.newCircle( w - 30, h - 50, 30 )
+    buttons[4]:setFillColor( 1, .22, .05, .5 )
+    sceneGroup:insert( buttons[4] )
+
+end
 
 gameOver = function( event )
     if playerLives.value == 0 then
@@ -60,7 +78,12 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
- 
+
+        if event.params then
+            buttons = {}
+            addControls( sceneGroup )
+        end
+     
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
       -- Runtime:addEventListener("enterFrame", test)

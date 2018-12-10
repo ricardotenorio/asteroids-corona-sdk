@@ -22,6 +22,39 @@ function M:new( obj, group )
 	
 	group:insert( obj )
 
+	function obj:buttons( event )
+		local name = event.name
+		local phase = event.phase
+
+		if phase == "began" then
+			if name == "up" then
+				-- Updates the velocity every 5 frames (I think...)
+				accelerationTimer = timer.performWithDelay( 83, self, 0 )
+			end
+
+			if name == "left" then
+				self:applyTorque( -0.015 )
+			elseif name == "right" then
+				self:applyTorque( 0.015 )
+			end
+
+			if name == "space" and self.isVisible then 
+				self:fire()
+			end
+
+		elseif phase == "ended" then
+			if name == "w" then
+				timer.cancel( accelerationTimer )
+			end
+			if name == "a" then
+				obj.angularVelocity = 0
+			elseif name == "d" then
+				obj.angularVelocity = 0
+
+			end
+		end
+	end
+
 	function obj:key( event )
 		local name = event.keyName
 		local phase = event.phase

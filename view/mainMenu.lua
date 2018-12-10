@@ -12,7 +12,7 @@ local newGame, ranking, gameText, rankingText, touchOption, touchText, changeCon
 options, rankingMenu
 
 start = function( event ) 
-    composer.gotoScene( "view.gameScreen", { effect="fade", time=800 params=touch } )
+    composer.gotoScene( "view.gameScreen", { effect="fade", time=800, params=true } )
 end
 
 rankingMenu = function( event ) 
@@ -71,11 +71,11 @@ function scene:show( event )
         title:setFillColor( .22, 1, .05 )
 
         touchOption = display.newRoundedRect( sceneGroup, w - 45, h - 30, 75, 50, 10 )
-        touchOption:setFillColor( .22, 1, .05 )
+        touchOption:setFillColor( 1, .22, .05 )
         options = { parent = sceneGroup, text = "touch", x = touchOption.x, y = touchOption.y,
             font = "kongtext.ttf", fontSize = 8, align = "center"}
         touchText = display.newText( options )
-        touch = true
+        touch = false
     
         ranking:addEventListener( "tap", rankingMenu )
         touchOption:addEventListener( "tap", changeControls )
