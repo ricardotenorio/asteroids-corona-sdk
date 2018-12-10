@@ -59,7 +59,8 @@ end
 
 function M.remove()
 	Runtime:removeEventListener( "system", onSystemEvent )
-	for i=1,rankingText do
+
+	for i=1, #rankingText do
 		display.remove( rankingText[i] )
 	end
 end
