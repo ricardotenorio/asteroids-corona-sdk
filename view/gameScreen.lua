@@ -20,15 +20,26 @@ addControls = function( sceneGroup )
     buttons[1] = display.newRoundedRect( 10, h - 40, 40, 25, 8 )
     buttons[1]:setFillColor( .22, 1, .05, .5 )
     sceneGroup:insert( buttons[1] )
+    buttons[1].name = "left"
+    buttons[1]:addEventListener( "touch", player )
+
     buttons[2] = display.newRoundedRect( 70, h - 40, 40, 25, 8 )
     buttons[2]:setFillColor( .22, 1, .05, .5 )
     sceneGroup:insert( buttons[2] )
+    buttons[2].name = "right"
+    buttons[2]:addEventListener( "touch", player )
+
     buttons[3] = display.newRoundedRect( 40, h - 80, 25, 40, 8 )
     buttons[3]:setFillColor( .22, 1, .05, .5 )
     sceneGroup:insert( buttons[3] )
+    buttons[3].name = "up"
+    buttons[3]:addEventListener( "touch", player )
+
     buttons[4] = display.newCircle( w - 30, h - 50, 30 )
     buttons[4]:setFillColor( 1, .22, .05, .5 )
     sceneGroup:insert( buttons[4] )
+    buttons[4].name = "fire"
+    buttons[4]:addEventListener( "touch", player )
 
 end
 
@@ -55,10 +66,10 @@ function scene:create( event )
     physics.start()
     physics.setGravity( 0, 0 )
     player = ship:new( nil, sceneGroup )
-    --asteroids = {}
-    --table.insert( asteroids, asteroid:new( nil, sceneGroup ))
-    --table.insert( asteroids, asteroid:new( nil, sceneGroup ))
-
+    if event.params then
+        buttons = {}
+        addControls( sceneGroup )
+    end
     ----------------GLOBAL--------------------
     playerScore = score:new( nil, sceneGroup )
     playerLives = lives:new( nil, sceneGroup )
@@ -78,11 +89,6 @@ function scene:show( event )
  
     if ( phase == "will" ) then
         -- Code here runs when the scene is still off screen (but is about to come on screen)
-
-        if event.params then
-            buttons = {}
-            addControls( sceneGroup )
-        end
      
     elseif ( phase == "did" ) then
         -- Code here runs when the scene is entirely on screen
@@ -111,7 +117,15 @@ function scene:destroy( event )
  
     local sceneGroup = self.view
     level:remove( )
-    Runtime:removeEventListener( "enterFrame", gameOver ) 
+    Runtime:removeEventListener( "enterFrame", gameOver )
+    if buttons then
+        for i=1, #buttons do
+         buttons[i]:removeEventListener( "touch", player )
+         print( player )
+         display.remove( buttons[i] )
+         buttons[i] = nil
+        end 
+    end    
 end
  
  

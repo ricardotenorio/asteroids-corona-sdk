@@ -22,14 +22,14 @@ function M:new( obj, group )
 	
 	group:insert( obj )
 
-	function obj:buttons( event )
-		local name = event.name
+	function obj:touch( event )
+		local name = event.target.name
 		local phase = event.phase
 
 		if phase == "began" then
 			if name == "up" then
 				-- Updates the velocity every 5 frames (I think...)
-				accelerationTimer = timer.performWithDelay( 83, self, 0 )
+				accelerationTimerTouch = timer.performWithDelay( 83, self, 0 )
 			end
 
 			if name == "left" then
@@ -38,17 +38,19 @@ function M:new( obj, group )
 				self:applyTorque( 0.015 )
 			end
 
-			if name == "space" and self.isVisible then 
+			if name == "fire" and self.isVisible then 
 				self:fire()
 			end
 
 		elseif phase == "ended" then
-			if name == "w" then
-				timer.cancel( accelerationTimer )
+			if name == "up" then
+				if accelerationTimerTouch then
+					timer.cancel( accelerationTimerTouch )
+				end
 			end
-			if name == "a" then
+			if name == "left" then
 				obj.angularVelocity = 0
-			elseif name == "d" then
+			elseif name == "right" then
 				obj.angularVelocity = 0
 
 			end
@@ -91,6 +93,7 @@ function M:new( obj, group )
 
 	function obj:timer( event )
 		local acceleration = 25
+
 		local currentVelocityX, currentVelocityY = self:getLinearVelocity( )
 		local shipVelocity = direction:getLinearVelocity( self.rotation, acceleration )
 
@@ -158,9 +161,14 @@ function M:new( obj, group )
 		Runtime:removeEventListener( "enterFrame", self )
 		Runtime:removeEventListener( "key", self )
 		obj:removeEventListener( "collision" )
+
 		if accelerationTimer then
 			timer.cancel( accelerationTimer )
 		end
+		if accelerationTimerTouch then
+			timer.cancel( accelerationTimerTouch )
+		end
+
 		timer.cancel( respawnTimer )
 		display.remove( self )
 		self = nil
